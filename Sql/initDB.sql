@@ -1,3 +1,9 @@
+-- Chuyển sang PDB trước khi tạo user (Oracle Multitenant)
+ALTER SESSION SET CONTAINER = XEPDB1;
+
+-- Cho phép tạo user không cần prefix C## (Oracle 12c+ Multitenant)
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+
 -- Tạo 1 tài khoản ADMIN với quyền DBA
 create user admin identified by 12345;
 
