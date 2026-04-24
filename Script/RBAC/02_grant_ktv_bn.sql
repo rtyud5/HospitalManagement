@@ -13,7 +13,7 @@
 SET SERVEROUTPUT ON;
 
 -- =====================================================
--- 1. Thu hồi grant trực tiếp cũ trên base table nếu đã từng chạy bản trước
+-- 1. Thu hồi grant trực tiếp cũ trên base table nếu đã từng cài đặt
 -- =====================================================
 BEGIN EXECUTE IMMEDIATE 'REVOKE SELECT ON ADMIN.HSBA_DV FROM RL_KYTHUATVIEN'; EXCEPTION WHEN OTHERS THEN NULL; END;
 /
