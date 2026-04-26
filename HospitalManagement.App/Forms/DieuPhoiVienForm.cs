@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using HospitalManagement.App.DataAccess;
 using HospitalManagement.App.Helpers;
 using Oracle.ManagedDataAccess.Client;
+using HospitalManagement.App.Forms; 
 
 namespace HospitalManagement.App.Forms
 {
@@ -107,11 +108,21 @@ namespace HospitalManagement.App.Forms
                 BackColor = Color.Transparent,
             };
 
+            // btnLogout = UIHelper.CreateButton("🚪 Đăng xuất", UIHelper.AccentRed, 130, 36);
+            // btnLogout.Location = new Point(1120, 15);
+            // btnLogout.Click += (s, e) => this.Close();
+
+            // pnlHeader.Controls.AddRange(new Control[] { lblWelcome, lblRole, btnLogout });
+            var btnThongBao = UIHelper.CreateButton("🔔", UIHelper.SecondaryDark, 50, 36);
+            btnThongBao.Location = new Point(1060, 15);
+            btnThongBao.Font = new Font("Segoe UI Emoji", 14);
+            btnThongBao.Click += (s, e) => new ThongBaoKhanForm().ShowDialog(this);
+
             btnLogout = UIHelper.CreateButton("🚪 Đăng xuất", UIHelper.AccentRed, 130, 36);
             btnLogout.Location = new Point(1120, 15);
             btnLogout.Click += (s, e) => this.Close();
 
-            pnlHeader.Controls.AddRange(new Control[] { lblWelcome, lblRole, btnLogout });
+            pnlHeader.Controls.AddRange(new Control[] { lblWelcome, lblRole, btnThongBao, btnLogout });
         }
 
         private void BuildTabs()
