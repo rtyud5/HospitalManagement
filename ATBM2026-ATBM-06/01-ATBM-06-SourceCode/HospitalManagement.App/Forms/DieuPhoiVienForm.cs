@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -724,6 +725,20 @@ namespace HospitalManagement.App.Forms
             }
         }
 
+        /// <summary>Danh sách mã được phép gán vào HSBA_DV.MA_KTV (đồng bộ MV_KTV_LIST).</summary>
+        private static HashSet<string> LoadKtvMaSet()
+        {
+            var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var dt = OracleHelper.Instance.ExecuteQuery("SELECT MA_NV FROM ADMIN.MV_KTV_LIST");
+            foreach (DataRow r in dt.Rows)
+            {
+                var s = r["MA_NV"]?.ToString()?.Trim();
+                if (!string.IsNullOrEmpty(s))
+                    set.Add(s);
+            }
+            return set;
+        }
+
         private void LoadKtvCombo(ComboBox cbo)
         {
             try
@@ -818,13 +833,42 @@ namespace HospitalManagement.App.Forms
                     UIHelper.ShowWarning("Không có thay đổi.");
                     return;
                 }
+                HashSet<string> allowedKtv = LoadKtvMaSet();
+                if (allowedKtv.Count == 0)
+                {
+                    UIHelper.ShowWarning("Không tải được danh sách KTV (MV_KTV_LIST). Không lưu.");
+                    return;
+                }
+
                 int ok = 0;
                 foreach (DataRow row in changes.Rows)
                 {
+                    object mkRaw = row["MA_KTV"];
+                    string mk = mkRaw == null || mkRaw == DBNull.Value
+                        ? ""
+                        : mkRaw.ToString()?.Trim() ?? "";
+
+                    object mkParam;
+                    if (string.IsNullOrEmpty(mk))
+                    {
+                        mkParam = DBNull.Value;
+                    }
+                    else if (!allowedKtv.Contains(mk))
+                    {
+                        UIHelper.ShowWarning(
+                            $"Mã KTV '{mk}' không hợp lệ.\n\n" +
+                            "Chỉ được gán mã nhân viên có trong MV_KTV_LIST (kỹ thuật viên), không dùng mã điều phối / bác sĩ.");
+                        return;
+                    }
+                    else
+                    {
+                        mkParam = mk;
+                    }
+
                     OracleHelper.Instance.ExecuteNonQuery(
                         "UPDATE ADMIN.HSBA_DV SET MA_KTV = :mk " +
                         "WHERE MA_HSBA = :mh AND LOAI_DV = :ldv AND NGAY_DV = :ngay",
-                        new OracleParameter("mk", row["MA_KTV"] ?? DBNull.Value),
+                        new OracleParameter("mk", mkParam),
                         new OracleParameter("mh", row["MA_HSBA"]),
                         OracleHelper.ParamNvarchar2("ldv", row["LOAI_DV"] ?? DBNull.Value),
                         new OracleParameter("ngay", row["NGAY_DV"]));
