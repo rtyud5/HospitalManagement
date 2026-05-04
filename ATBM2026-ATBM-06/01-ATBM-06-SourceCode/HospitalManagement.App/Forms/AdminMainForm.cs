@@ -31,7 +31,7 @@ public class AdminMainForm : Form
     private readonly ComboBox _cboGrantMode = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboGrantSystemPriv = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboGrantRoleName = AdminUiHelper.CreateComboBox();
-    private readonly TextBox _txtGrantOwner = AdminUiHelper.CreateTextBox("LAB_OWNER");
+    private readonly TextBox _txtGrantOwner = AdminUiHelper.CreateTextBox("ADMIN");
     private readonly ComboBox _cboGrantObjectName = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboGrantObjectType = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboGrantObjectPriv = AdminUiHelper.CreateComboBox();
@@ -43,7 +43,7 @@ public class AdminMainForm : Form
     private readonly ComboBox _cboRevokeMode = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboRevokeSystemPriv = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboRevokeRoleName = AdminUiHelper.CreateComboBox();
-    private readonly TextBox _txtRevokeOwner = AdminUiHelper.CreateTextBox("LAB_OWNER");
+    private readonly TextBox _txtRevokeOwner = AdminUiHelper.CreateTextBox("ADMIN");
     private readonly ComboBox _cboRevokeObjectName = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboRevokeObjectType = AdminUiHelper.CreateComboBox();
     private readonly ComboBox _cboRevokeObjectPriv = AdminUiHelper.CreateComboBox();
@@ -66,8 +66,8 @@ public class AdminMainForm : Form
 
         Text = "Phân hệ 1 - Ứng dụng quản trị CSDL Oracle";
         WindowState = FormWindowState.Maximized;
-        _txtGrantOwner.Text = "LAB_OWNER";
-        _txtRevokeOwner.Text = "LAB_OWNER";
+        _txtGrantOwner.Text = "ADMIN";
+        _txtRevokeOwner.Text = "ADMIN";
 
         InitializeForm();
         BindEvents();
@@ -256,7 +256,7 @@ public class AdminMainForm : Form
         var btnRefresh = new Button { Text = "Làm mới object", Width = 120, Height = 34 };
         btnRefresh.Click += (_, _) => LoadObjects();
 
-        _txtObjectOwnerFilter.Text = "LAB_OWNER";
+        _txtObjectOwnerFilter.Text = "ADMIN";
         _txtObjectOwnerFilter.Enabled = false;
         _txtObjectOwnerFilter.Visible = false;
 

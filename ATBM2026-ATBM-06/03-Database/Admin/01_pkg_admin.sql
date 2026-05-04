@@ -718,7 +718,7 @@ CREATE OR REPLACE PACKAGE BODY PKG_ADMIN AS
         v_owner := UPPER(TRIM(p_owner));
         -- Mặc định hiển thị object mẫu trong schema lab.
         IF v_owner IS NULL OR LENGTH(TRIM(v_owner)) = 0 THEN
-            v_owner := 'LAB_OWNER';
+            v_owner := 'ADMIN';
         END IF;
         OPEN p_cursor FOR
             SELECT owner, object_name, object_type, status, created
