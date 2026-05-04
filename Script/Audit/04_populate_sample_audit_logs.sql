@@ -61,6 +61,11 @@ BEGIN
                       'VALUES (''KTV001'', ''Kỹ Thuật Viên'', ''SELECT'', ''KET_QUA'', ''SUCCESS'', SYSTIMESTAMP, ''KQ001'', ''Xem kết quả xét nghiệm'')';
     v_count := v_count + 1;
     
+    -- Sample 11: INSERT BENH_NHAN - Ngữ cảnh 5 (Theo dõi hành vi INSERT thành công trên bảng benhNhan)
+    EXECUTE IMMEDIATE 'INSERT INTO admin.AUDIT_LOG (username, full_name, action_type, object_name, result, action_timestamp, record_id, new_value, notes) ' ||
+                      'VALUES (''NV_DPV'', ''Lê Điều Phối'', ''INSERT'', ''BENH_NHAN'', ''SUCCESS'', SYSTIMESTAMP - 0.25/24, ''BN002'', ''Bệnh nhân: Võ Minh C, CMND: 123456789, Ngày sinh: 15/03/1990, Địa chỉ: 123 Nguyễn Huệ, TP.HCM'', ''Thêm bệnh nhân mới vào hệ thống'')';
+    v_count := v_count + 1;
+    
     -- Commit
     COMMIT;
     

@@ -6,9 +6,9 @@
 SET SERVEROUTPUT ON;
 
 -- 1. Kích hoạt kiểm toán (Chạy bằng sysdba trên root container nếu hệ thống chưa bật)
--- ALTER SYSTEM SET audit_trail=db,extended SCOPE=SPFILE;
--- SHUTDOWN IMMEDIATE;
--- STARTUP;
+ALTER SYSTEM SET audit_trail=db,extended SCOPE=SPFILE;
+SHUTDOWN IMMEDIATE;
+STARTUP;
 
 -- ==========================================
 -- 2. THỰC HIỆN KIỂM TOÁN DÙNG STANDARD AUDIT
@@ -25,6 +25,9 @@ AUDIT DELETE ON admin.hsba_dv BY ACCESS WHENEVER SUCCESSFUL;
 
 -- Ngữ cảnh 4: Theo dõi việc thực thi các Stored Procedure
 AUDIT EXECUTE ON admin.sp_log_audit BY ACCESS;
+
+-- Ngữ cảnh 5: Theo dõi hành vi INSERT thành công trên bảng benhNhan
+AUDIT INSERT ON admin.benh_nhan BY ACCESS WHENEVER SUCCESSFUL;
 
 -- ==========================================
 -- 3. THỰC HIỆN KIỂM TOÁN DÙNG FGA (FINE-GRAINED AUDIT)
